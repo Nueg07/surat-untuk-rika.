@@ -26,6 +26,7 @@
 
 html {
     scroll-behavior: smooth;
+    scroll-padding-top: 25px;
 }
 
 body {
@@ -92,6 +93,8 @@ body {
     }
 }
 
+/* HALAMAN UTAMA */
+
 .main {
     min-height: 100vh;
     width: 100%;
@@ -111,6 +114,7 @@ body {
 }
 
 /* FOTO */
+
 .photo-area {
     display: flex;
     justify-content: center;
@@ -156,6 +160,7 @@ body {
 }
 
 /* KONTEN */
+
 .content {
     animation: appear 1s ease;
 }
@@ -227,6 +232,8 @@ h1 span {
     margin-top: 18px;
 }
 
+/* WHATSAPP */
+
 .buttons {
     display: flex;
     flex-wrap: wrap;
@@ -254,18 +261,15 @@ h1 span {
     transform: translateY(-3px);
 }
 
-.btn-primary {
-    background: linear-gradient(135deg,#ffc1d3,#e77b9f);
-    color: #371b2a;
-}
-
 .btn-whatsapp {
     background: #25d366;
     color: #103c27;
 }
 
+/* PESAN KEDUA */
+
 .letter {
-    display: none;
+    display: block;
     margin-top: 20px;
     padding: 23px;
     background: rgba(255,255,255,.12);
@@ -274,11 +278,31 @@ h1 span {
     backdrop-filter: blur(15px);
     font-size: 13px;
     line-height: 1.9;
-    animation: appear .5s ease;
+
+    /* Awalnya tersembunyi */
+    opacity: 0;
+    visibility: hidden;
+    max-height: 0;
+    overflow: hidden;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-top: 0;
+
+    transition:
+        opacity .8s ease,
+        max-height 1s ease,
+        padding .8s ease,
+        margin .8s ease,
+        visibility .8s;
 }
 
 .letter.show {
-    display: block;
+    opacity: 1;
+    visibility: visible;
+    max-height: 1000px;
+    padding: 23px;
+    margin-top: 20px;
+    animation: appear .8s ease;
 }
 
 .letter h3 {
@@ -288,7 +312,8 @@ h1 span {
     margin-bottom: 12px;
 }
 
-/* MUSIC */
+/* MUSIK */
+
 .music {
     position: fixed;
     bottom: 20px;
@@ -298,7 +323,7 @@ h1 span {
     align-items: center;
     gap: 12px;
     padding: 11px 16px;
-    background: rgba(29,16,25,.92);
+    background: rgba(29,16,25,.95);
     border: 1px solid rgba(255,255,255,.2);
     border-radius: 40px;
     box-shadow: 0 8px 30px rgba(0,0,0,.3);
@@ -334,8 +359,12 @@ h1 span {
     color: white;
     cursor: pointer;
     font-size: 19px;
-    width: 32px;
-    height: 32px;
+    width: 38px;
+    height: 38px;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 25;
+    touch-action: manipulation;
 }
 
 .equalizer {
@@ -370,69 +399,36 @@ h1 span {
     right: 25px;
     color: rgba(255,255,255,.65);
     font-size: 10px;
+    pointer-events: none;
 }
 
-/* TOMBOL AUTOPLAY FALLBACK */
-.autoplay-notice {
+/* STATUS MUSIK */
+
+.music-status {
     position: fixed;
-    inset: 0;
-    z-index: 50;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 25px;
-    background: rgba(20,10,18,.48);
-    backdrop-filter: blur(5px);
-}
-
-.autoplay-notice.show {
-    display: flex;
-}
-
-.autoplay-card {
-    width: 100%;
-    max-width: 340px;
-    padding: 30px 22px;
-    text-align: center;
-    border-radius: 25px;
-    background: #30202d;
-    border: 1px solid rgba(255,255,255,.2);
-    box-shadow: 0 20px 60px rgba(0,0,0,.4);
-}
-
-.autoplay-card .music-icon {
-    margin: 0 auto 17px;
-    width: 52px;
-    height: 52px;
-    font-size: 22px;
-}
-
-.autoplay-card h2 {
-    font-family: 'Playfair Display', serif;
-    color: #ffc1d3;
-    margin-bottom: 10px;
-}
-
-.autoplay-card p {
-    color: #f4dce6;
-    font-size: 12px;
-    line-height: 1.8;
-    margin-bottom: 20px;
-}
-
-.autoplay-card button {
-    width: 100%;
-    padding: 14px;
-    border: none;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    padding: 9px 17px;
+    background: rgba(29,16,25,.8);
+    border: 1px solid rgba(255,255,255,.15);
     border-radius: 30px;
-    background: linear-gradient(135deg,#ffc1d3,#e77b9f);
-    color: #371b2a;
-    font-weight: 700;
-    font-size: 13px;
-    cursor: pointer;
+    color: #ffc1d3;
+    font-size: 10px;
+    letter-spacing: 1px;
+    opacity: 0;
+    transition: opacity .5s;
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+.music-status.show {
+    opacity: 1;
 }
 
 /* MOBILE */
+
 @media(max-width:760px) {
     .main {
         min-height: 100svh;
@@ -508,7 +504,7 @@ h1 span {
 
     .buttons {
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr;
         gap: 10px;
         width: 100%;
     }
@@ -522,7 +518,6 @@ h1 span {
 
     .letter {
         text-align: left;
-        padding: 21px 19px;
     }
 
     .letter h3 {
@@ -592,7 +587,11 @@ h1 span {
 <div class="overlay"></div>
 <div class="hearts" id="hearts"></div>
 
-<main class="main">
+<div class="music-status" id="musicStatus">
+    PESAN BERIKUTNYA TERBUKA ♡
+</div>
+
+<main class="main" id="mainPage">
 <div class="container">
 
     <div class="photo-area">
@@ -639,18 +638,14 @@ h1 span {
         </div>
 
         <div class="buttons">
-
-            <button class="btn btn-primary" onclick="showLetter()">
-                Baca Pesanku ♡
-            </button>
-
             <a class="btn btn-whatsapp"
                href="https://wa.me/6281528493879?text=Hai%2C%20aku%20sudah%20lihat%20pesan%20kamu%20%F0%9F%98%8A"
                target="_blank" rel="noopener">
-                WhatsApp ↗
+                Balas Pesan Lewat WhatsApp ↗
             </a>
-
         </div>
+
+        <!-- PESAN KEDUA AKAN MUNCUL OTOMATIS SAAT MUSIK DIMULAI -->
 
         <div class="letter" id="letter">
             <h3>Satu Hal Lagi, Rika...</h3>
@@ -683,6 +678,7 @@ h1 span {
 </main>
 
 <!-- MUSIC PLAYER -->
+
 <div class="music">
     <div class="music-icon">♫</div>
 
@@ -695,27 +691,12 @@ h1 span {
         <span></span><span></span><span></span><span></span>
     </div>
 
-    <button id="musicButton" onclick="toggleMusic()" aria-label="Putar atau jeda musik">
+    <button id="musicButton"
+            type="button"
+            aria-label="Putar atau jeda musik">
         ▶
     </button>
 </div>
-
-<!-- AUTOPLAY FALLBACK -->
-<div class="autoplay-notice" id="autoplayNotice">
-    <div class="autoplay-card">
-        <div class="music-icon">♫</div>
-        <h2>Musik untuk Rika ♡</h2>
-        <p>
-            Ketuk tombol di bawah untuk mendengarkan
-            lagu sambil membaca pesan ini.
-        </p>
-        <button onclick="startMusicFromButton()">
-            Putar Musik ♡
-        </button>
-    </div>
-</div>
-
-<div class="footer">Made with ♡ for Rika</div>
 
 <audio id="song" preload="auto" playsinline>
     <source src="surat-cinta-starla.mp3" type="audio/mpeg">
@@ -730,30 +711,88 @@ h1 span {
 const song = document.getElementById("song");
 const musicButton = document.getElementById("musicButton");
 const equalizer = document.getElementById("equalizer");
-const autoplayNotice = document.getElementById("autoplayNotice");
+const letter = document.getElementById("letter");
+const musicStatus = document.getElementById("musicStatus");
 
-/* GANTI SESUAI DETIK AWAL REFF */
+/* DETIK AWAL REFF */
 const CHORUS_START = 75;
 
-let isPlaying = false;
-let autoplayAttempted = false;
+let nextPageOpened = false;
+let statusTimer = null;
+
+/* ==================================
+   UPDATE TAMPILAN MUSIK
+================================== */
 
 function updateMusicUI() {
-    isPlaying = !song.paused;
+    const playing = !song.paused;
 
-    musicButton.textContent = isPlaying ? "Ⅱ" : "▶";
-
-    equalizer.classList.toggle("playing", isPlaying);
+    musicButton.textContent = playing ? "Ⅱ" : "▶";
+    equalizer.classList.toggle("playing", playing);
 }
+
+/* ==================================
+   BUKA PESAN BERIKUTNYA OTOMATIS
+================================== */
+
+function openNextPage() {
+
+    if (nextPageOpened) return;
+
+    nextPageOpened = true;
+
+    letter.classList.add("show");
+
+    musicStatus.classList.add("show");
+
+    clearTimeout(statusTimer);
+
+    statusTimer = setTimeout(() => {
+        musicStatus.classList.remove("show");
+    }, 3500);
+
+    /*
+       Otomatis scroll ke pesan kedua.
+       Diberi jeda agar animasi pesan selesai
+       dan tidak mengganggu tombol pemutar musik.
+    */
+
+    setTimeout(() => {
+
+        letter.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+
+    }, 1200);
+}
+
+/* ==================================
+   SIAPKAN LAGU KE BAGIAN REFF
+================================== */
 
 async function seekToChorus() {
 
     if (song.readyState < 1) {
+
         await new Promise((resolve, reject) => {
-            song.addEventListener("loadedmetadata", resolve, {once:true});
-            song.addEventListener("error", reject, {once:true});
+
+            song.addEventListener(
+                "loadedmetadata",
+                resolve,
+                { once: true }
+            );
+
+            song.addEventListener(
+                "error",
+                reject,
+                { once: true }
+            );
+
             song.load();
+
         });
+
     }
 
     if (
@@ -766,69 +805,49 @@ async function seekToChorus() {
     song.currentTime = CHORUS_START;
 }
 
+/* ==================================
+   AUTOPLAY
+================================== */
+
 async function attemptAutoplay() {
-
-    if (autoplayAttempted) return;
-
-    autoplayAttempted = true;
 
     try {
 
         await seekToChorus();
         await song.play();
 
-        autoplayNotice.classList.remove("show");
-
     } catch (error) {
 
-        console.log("Autoplay diblokir browser:", error);
+        /*
+          Browser dapat memblokir autoplay.
+          Tidak menampilkan popup yang menutupi layar.
+          Pengunjung cukup menekan tombol Play.
+        */
 
-        autoplayNotice.classList.add("show");
+        console.log(
+            "Autoplay diblokir. Pengunjung dapat menekan Play.",
+            error
+        );
 
     }
 
 }
 
-/* COBA OTOMATIS SAAT HALAMAN DIBUKA */
 window.addEventListener("load", () => {
 
     attemptAutoplay();
 
 });
 
-/* TOMBOL JIKA AUTOPLAY DIBLOKIR */
-async function startMusicFromButton() {
+/* ==================================
+   PLAY / PAUSE
+================================== */
 
-    try {
-
-        if (
-            song.ended ||
-            song.currentTime < CHORUS_START
-        ) {
-            await seekToChorus();
-        }
-
-        await song.play();
-
-        autoplayNotice.classList.remove("show");
-
-    } catch (error) {
-
-        console.error(error);
-
-        alert("Periksa file MP3 dan waktu awal reff.");
-
-    }
-
-}
-
-/* TOMBOL PLAY / PAUSE */
 async function toggleMusic() {
 
     if (!song.paused) {
 
         song.pause();
-
         return;
 
     }
@@ -846,19 +865,37 @@ async function toggleMusic() {
 
     } catch (error) {
 
-        console.error(error);
-
-        autoplayNotice.classList.add("show");
+        console.error("Gagal memutar musik:", error);
 
     }
 
 }
 
-/* STATUS PLAYER */
-song.addEventListener("play", updateMusicUI);
+musicButton.addEventListener("click", toggleMusic);
+
+/* ==================================
+   SAAT MUSIK MULAI
+================================== */
+
+song.addEventListener("play", () => {
+
+    updateMusicUI();
+
+    /*
+       Begitu lagu mulai, pesan berikutnya
+       langsung dibuka otomatis.
+    */
+
+    openNextPage();
+
+});
+
 song.addEventListener("pause", updateMusicUI);
 
-/* ULANGI DARI REFF SETIAP LAGU SELESAI */
+/* ==================================
+   JIKA LAGU SELESAI
+================================== */
+
 song.addEventListener("ended", async () => {
 
     try {
@@ -868,38 +905,12 @@ song.addEventListener("ended", async () => {
 
     } catch (error) {
 
-        console.error(error);
-
+        console.error("Lagu tidak bisa diulang:", error);
         updateMusicUI();
 
     }
 
 });
-
-/* ==================================
-   PESAN TAMBAHAN
-================================== */
-
-function showLetter() {
-
-    const letter = document.getElementById("letter");
-
-    letter.classList.toggle("show");
-
-    if (letter.classList.contains("show")) {
-
-        setTimeout(() => {
-
-            letter.scrollIntoView({
-                behavior: "smooth",
-                block: "center"
-            });
-
-        }, 100);
-
-    }
-
-}
 
 /* ==================================
    ANIMASI HATI
@@ -915,13 +926,22 @@ for (let i = 0; i < 20; i++) {
     heart.textContent = "♥";
 
     heart.style.left = Math.random() * 100 + "%";
-    heart.style.fontSize = (12 + Math.random() * 15) + "px";
-    heart.style.animationDuration = (8 + Math.random() * 10) + "s";
-    heart.style.animationDelay = (Math.random() * 10) + "s";
+    heart.style.fontSize =
+        (12 + Math.random() * 15) + "px";
+
+    heart.style.animationDuration =
+        (8 + Math.random() * 10) + "s";
+
+    heart.style.animationDelay =
+        (Math.random() * 10) + "s";
 
     hearts.appendChild(heart);
 
 }
+
+/* STATUS AWAL */
+
+updateMusicUI();
 
 </script>
 
